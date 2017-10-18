@@ -1,0 +1,15 @@
+{
+  "name": "bmnode_mqtt",
+  "version": "0.1.0",
+  "description": "BenchMark Node Mqtt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Vilas",
+  "license": "ISC",
+  "dependencies": {
+    "stdio": "^0.2.7",
+    "mqtt" : "^2.13.1"
+  } 
+}

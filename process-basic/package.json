@@ -1,0 +1,20 @@
+{
+  "name": "process-basic",
+  "version": "0.1.0",
+  "description": "Benchmark Node Basic Process",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Node",
+    "Benchmark",
+    "RNA"
+  ],
+  "author": "Daniel Vilas",
+  "license": "ISC",
+  "dependencies": {
+    "dsp.js": "^1.0.1",
+    "fft-js": "^0.0.11"
+  }
+}
