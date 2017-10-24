@@ -1,0 +1,19 @@
+{
+  "name": "bmnode-kafka",
+  "version": "0.1.0",
+  "description": "BenchMark Node Kafka",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Kafka",
+    "BenchMark"
+  ],
+  "author": "Daniel Vilas",
+  "license": "ISC",
+  "dependencies": {
+    "kafka-node": "^2.2.3",
+    "node-zookeeper-client": "^0.2.2"
+  }
+}
