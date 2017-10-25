@@ -4,7 +4,7 @@ DataReader = require('./data_reader');
 PacketReader = require('./packet_reader');
 BasicProcess = require('../process-basic');
 BucketManager = require('./bucket_manager');
-fann = require('fann');
+fann = require('fann2');
 
 
 //Main Function
