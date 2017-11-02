@@ -5,7 +5,7 @@ var Client = require('node-rest-client').Client;
 //Protocol Api
 function restClient(options){
     this.client = new Client();
-    this.client.registerMethod("sendAppliancesData", "http://server.local:9090/api/addBucket", "POST");
+    this.client.registerMethod("sendAppliancesData", "http://server.local:9090/api/addPacket", "POST");
 }
 
 restClient.prototype.init=function(cfg){
@@ -15,8 +15,13 @@ restClient.prototype.init=function(cfg){
 
 restClient.prototype.send=function(data){
     //console.log("mqttClient_send:",data);
+    var bucket=new types.Packet(data.date);
+    bucket.tvSeconds+=data.tv;
+    bucket.bluraySeconds+=data.bluray;
+    bucket.appleTvSeconds+=data.appleTv;
+    bucket.ipTvSeconds+=data.ipTv;
     var args = {
-        data: JSON.stringify(data),
+        data: JSON.stringify(bucket),
         headers: { "Content-Type": "application/json" }
     };
     this.client.methods.sendAppliancesData(args,function (datar, response) {

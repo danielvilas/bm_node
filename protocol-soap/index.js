@@ -22,16 +22,15 @@ soapClient.prototype.send=function(data){
         console.log("Not Defined")
         return;
     }
-    args={bucket:{
-        start:data.start.toISOString(),
-        end:data.end.toISOString(),
-        tvSeconds:data.tvSeconds,
-        bluraySeconds:data.bluraySeconds,
-        appleTvSeconds:data.appleTvSeconds,
-        ipTvSeconds:data.ipTvSeconds
+    var args={packet:{
+        date:data.date.toISOString(),
+        tvSeconds:data.tv,
+        bluraySeconds:data.bluray,
+        appleTvSeconds:data.appleTv,
+        ipTvSeconds:data.ipTv
     }};
 
-    this.client.AddBucket(args, function(err, result) {
+    this.client.AddPacket(args, function(err, result) {
         if(err){
             console.log(err)
         }

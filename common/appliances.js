@@ -40,13 +40,12 @@ function ParsedPacket(date, results){
     this.ipTv=results[3];
 }
 
-function Bucket(start, end){
-    this.start=start;
-    this.end=end;
+function Packet(date){
+    this.date=date;
     this.tvSeconds=0.0;
     this.bluraySeconds=0.0;
     this.appleTvSeconds=0.0;
     this.ipTvSeconds=0.0;
 }
 
-module.exports={LogData:LogData, LogPacket:LogPacket, ParsedPacket:ParsedPacket, Bucket:Bucket};
+module.exports={LogData:LogData, LogPacket:LogPacket, ParsedPacket:ParsedPacket, Packet:Packet};
