@@ -6,11 +6,14 @@ types = require('../common/appliances');
 function BasicProcess(net, cb){
     this.net = net;
     this.cb=cb;
+    this.packets=0;
+    this.pendingPackets=0;
 }
 
 
 BasicProcess.prototype={
     push:function bp_push(logPacket){
+        this.packets++;
         var data0 = this.processSamples(logPacket.logData,0);
         var data3 = this.processSamples(logPacket.logData,300);
         var data6 = this.processSamples(logPacket.logData,600);
@@ -25,7 +28,8 @@ BasicProcess.prototype={
         for(i=0;i<res0.length;i++){
             out.push((res0[i]+res3[i]+res6[i]+res9[i])/4);
         }
-        this.cb.push(new types.ParsedPacket(logPacket.logData[0].date,out));
+        var pp = new types.ParsedPacket(logPacket.logData[0].date,out);
+        this.fireEvent(pp);
     },
     processSamples:function bp_processSamples(samples, offset) {
         var ret=new Float32Array(FFT_SIZE);
@@ -48,6 +52,24 @@ BasicProcess.prototype={
         var pos = i*(FFT_SIZE/2)/500;
         pos= Math.floor(pos);
         return fft.spectrum[pos]*fft.bufferSize/2;
+    },
+    fireEvent:function bp_fireEvent(pp){
+        var me=this;
+        me.pendingPackets++;
+        setTimeout(function () {
+            me.cb.send(pp);
+            me.pendingPackets--;
+        });
+    },
+    finish:function bp_finish() {
+        var me = this;
+        if(me.pendingPackets>0){
+            console.log("Pending packets to Send:" +me.pendingPackets);
+            setTimeout(function(){me.finish()});
+        }else{
+            console.log("Packets: "+this.packets);
+            setTimeout(function () {me.cb.finish();})
+        }
     }
 }
 

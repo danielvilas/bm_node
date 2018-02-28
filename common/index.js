@@ -6,6 +6,7 @@ BasicProcess = require('../process-basic');
 BucketManager = require('./bucket_manager');
 fann = require('fann2');
 
+const {performance, PerformanceObserver} = require('perf_hooks');
 
 //Main Function
 function bmnode(cfg, client){
@@ -14,9 +15,18 @@ function bmnode(cfg, client){
     this.client = client;
     this.timer = new NanoTimer();
    // console.log('main:',cfg);
+
+    process.on('exit', function(code) {
+        performance.mark('B');
+        performance.measure('A to B', 'A', 'B');
+        const measure = performance.getEntriesByName('A to B')[0];
+        console.log("Time: "+measure.duration+" ms");
+    });
+
     if(!cfg.checkOptions()){
         return;
     }
+    performance.mark('A');
     client.init(cfg);
 
     //The real code begins Here
@@ -33,7 +43,7 @@ function bmnode(cfg, client){
         var net = new fann.net();
         net.fromFile('./data/net_16000.net');
         var bm = new BucketManager.BucketManager(client);
-        var bp= new BasicProcess.BasicProcess(net, bm);
+        var bp= new BasicProcess.BasicProcess(net, client);
         var pr =new PacketReader.PacketReader(bp);
 
 

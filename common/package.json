@@ -9,7 +9,7 @@
   "author": "Daniel Vilas",
   "license": "ISC",
   "dependencies": {
-    "fann": "git+https://github.com/danielvilas/node-fann.git",
+    "fann2": "git+https://github.com/danielvilas/node-fann.git",
     "nanotimer": "^0.3.14",
     "stdio": "^0.2.7",
     "line-reader": "^0.4.0"

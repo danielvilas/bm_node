@@ -19,9 +19,11 @@ module.exports={FileReader:fileReader};
 function proccessFile(dataset, i, files, callback){
     if(i>=files.length){
         console.log("I'm done!!");
+        console.log("Files: "+i);
         setTimeout(function () {
-            process.exit();
+            callback.finish();
         });
+        return;
     }
     var file = files[i];
     console.log(file);

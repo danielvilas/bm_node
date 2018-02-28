@@ -6,6 +6,8 @@ var Client = require('node-rest-client').Client;
 function restClient(options){
     this.client = new Client();
     this.client.registerMethod("sendAppliancesData", "http://server.local:9090/api/addPacket", "POST");
+    this.sentMessages=0;
+    this.pendingMessages=0;
 }
 
 restClient.prototype.init=function(cfg){
@@ -24,6 +26,9 @@ restClient.prototype.send=function(data){
         data: JSON.stringify(bucket),
         headers: { "Content-Type": "application/json" }
     };
+    this.sentMessages++;
+    this.pendingMessages++;
+    var self = this;
     this.client.methods.sendAppliancesData(args,function (datar, response) {
         // parsed response body as js object
         if(response.statusCode!=200){
@@ -31,7 +36,20 @@ restClient.prototype.send=function(data){
             // raw response
             console.log(response);
         }
+        self.pendingMessages--;
     });
+}
+
+
+restClient.prototype.finish=function(){
+    var self=this;
+    if(self.pendingMessages>0){
+        console.log("Pending Messages "+self.pendingMessages);
+        setTimeout(function () { self.finish();});
+    }else{
+        console.log("Messages: "+ self.sentMessages);
+        process.exit(0);
+    }
 }
 
 module.exports=restClient;
