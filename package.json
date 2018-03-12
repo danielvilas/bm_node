@@ -14,6 +14,12 @@
   "author": "Daniel Vilas",
   "license": "ISC",
   "dependencies": {
+    "bmnode-kafka": "file:protocol-kafka",
+    "bmnode_common": "file:common",
+    "bmnode_mqtt": "file:protocol-mqtt",
+    "bmnode_rest": "file:protocol-rest",
+    "bmnode_soap": "file:protocol-soap",
+    "process-basic": "file:process-basic",
     "stdio": "^0.2.7"
   }
 }

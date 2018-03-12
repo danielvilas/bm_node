@@ -1,9 +1,10 @@
 function LogPacket () {
-    this.logData=[];
+
 }
 
 LogPacket.prototype={
     PACKET_SIZE: 1024,
+    logData:[]
 }
 
 function LogData(line){
@@ -19,7 +20,7 @@ function LogData(line){
 
     if(stMicros.startsWith('-') && this.micros!=-1){
         console.error("Dataset not clear (-), parse in java spliter first");
-}
+    }
 
     this.A0=parseInt(stA0);
     this.A1=parseInt(stA1);
@@ -29,7 +30,10 @@ function LogData(line){
 }
 
 LogData.prototype={
-
+    A0:0,
+    A1:0,
+    date:new Date(),
+    deltaMicros:0
 }
 
 function ParsedPacket(date, results){
@@ -39,13 +43,24 @@ function ParsedPacket(date, results){
     this.appleTv=results[2];
     this.ipTv=results[3];
 }
+ParsedPacket.prototype={
+    date:new Date(),
+    tv:0.0,
+    bluray:0.0,
+    appleTv:0.0,
+    ipTv:0.0
+}
 
 function Packet(date){
     this.date=date;
-    this.tvSeconds=0.0;
-    this.bluraySeconds=0.0;
-    this.appleTvSeconds=0.0;
-    this.ipTvSeconds=0.0;
+}
+
+Packet.prototype={
+    date:new Date(),
+    tvSeconds:0.0,
+    bluraySeconds:0.0,
+    appleTvSeconds:0.0,
+    ipTvSeconds:0.0,
 }
 
 module.exports={LogData:LogData, LogPacket:LogPacket, ParsedPacket:ParsedPacket, Packet:Packet};
