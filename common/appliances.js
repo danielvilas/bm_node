@@ -1,10 +1,12 @@
 function LogPacket () {
-
+    this.logData=new Array(this.PACKET_SIZE);
+    this.i=0;
 }
 
 LogPacket.prototype={
     PACKET_SIZE: 1024,
-    logData:[]
+    logData:new Array(this.PACKET_SIZE),
+    i:0
 }
 
 function LogData(line){
@@ -24,8 +26,8 @@ function LogData(line){
 
     this.A0=parseInt(stA0);
     this.A1=parseInt(stA1);
-    this.date=new Date();
-    this.date.setTime(parseInt(stDate));
+    this.date=new Date(parseInt(stDate));
+    //this.date.setTime(parseInt(stDate));
     this.deltaMicros=parseInt(stDelta);
 }
 

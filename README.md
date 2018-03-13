@@ -33,23 +33,13 @@ function Protocol(options){
 Instalation
 ```sh
 
-sudo apt-get install npm
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
 git clone https://github.com/danielvilas/bm_node
 cd bm_node 
 npm install
-cd common
-npm install
-cd ../process-basic/
-npm install
-cd ../protocol-kafka/
-npm install
-cd ../protocol-mqtt/
-npm install
-cd ../protocol-rest/
-npm install
-cd ../protocol-soap/
-npm install
-cd ..
+
 node . -d 0Initial -p KAFKA
 
 ´´´

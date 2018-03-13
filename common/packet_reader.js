@@ -10,10 +10,11 @@ function packetReader(cb) {
 }
 packetReader.prototype={
     pushLogData:function pr_push(logPacket){
-        this.packet.logData.push(logPacket);
+        this.packet.logData[this.packet.i]=logPacket;
         this.samples++;
+        this.packet.i++;
 
-        if(this.packet.logData.length==this.packet.PACKET_SIZE) {
+        if(this.packet.i==this.packet.PACKET_SIZE) {
             var firePacket = this.packet;
             this.packet = new types.LogPacket();
             this.fireEvent(firePacket);
