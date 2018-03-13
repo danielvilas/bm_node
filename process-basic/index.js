@@ -1,5 +1,6 @@
 const FFT = require('fft.js');
 const FFT_SIZE=512;
+const DATA_SIZE=300
 
 types = require('../common/appliances');
 
@@ -16,8 +17,8 @@ BasicProcess.prototype={
         this.packets++;
         var data0 = this.processSamples(logPacket.logData,0);
         var data3 = this.processSamples(logPacket.logData,300);
-        var data6 = this.processSamples(logPacket.logData,400);
-        var data9 = this.processSamples(logPacket.logData,1023-FFT_SIZE);
+        var data6 = this.processSamples(logPacket.logData,600);
+        var data9 = this.processSamples(logPacket.logData,1023-DATA_SIZE);
 
         var res0 = this.net.run(data0);
         var res3 = this.net.run(data3);
@@ -34,13 +35,16 @@ BasicProcess.prototype={
     processSamples:function bp_processSamples(samples, offset) {
         var ret=new Float32Array(FFT_SIZE);
         var average =  0.0;
-        for(i=0;i<FFT_SIZE;i++){
+        for(i=0;i<DATA_SIZE;i++){
             var value =samples[i+offset].A0;
             value = parseFloat((value - 512.0)/512.0);
             ret[i]=value;
             average+=Math.abs(value);
         }
-        average /= FFT_SIZE;
+        average /= DATA_SIZE;
+	for(i=DATA_SIZE;i<FFT_SIZE;i++){
+	    ret[i]=0;
+	}
 
 
         var fftw=new FFT(FFT_SIZE);
@@ -56,7 +60,9 @@ BasicProcess.prototype={
     getMagnitude:function bp_getMagnitude(fft, i) {
         var pos = i*(FFT_SIZE/2)/500;
         pos= Math.floor(pos);
-        var spectrum = fft[pos*2]^2+fft[pos*2+1]^2;
+	var r=fft[pos*2];
+	var c=fft[pos*2+1];
+        var spectrum = r*r +c*c;
         spectrum=Math.sqrt(spectrum);
 
         return spectrum*FFT_SIZE;
