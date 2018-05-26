@@ -20,7 +20,7 @@ switch (cmd.options.protocol) {
         RestClient=require('./protocol-rest')
         client = new RestClient(cmd);
         break;
-    case 'SOAP':
+    case 'WS':
         SoapClient=require('./protocol-soap')
         client = new SoapClient(cmd);
         break;
